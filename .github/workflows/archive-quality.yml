@@ -1,0 +1,26 @@
+name: PixelPilot archive quality
+
+on:
+  push:
+    branches:
+      - revive/pixelpilot-2026
+  pull_request:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  static-archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Contact safety and accessibility regressions
+        run: node --test tests/*.test.mjs
